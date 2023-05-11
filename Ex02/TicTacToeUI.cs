@@ -46,7 +46,8 @@ namespace Ex02
             Console.WriteLine("Please enter the j box indexes:");
             int j = int.Parse(System.Console.ReadLine());
             //validate i, j - if Q than return true
-            //....Logics.PlayersMove(i,j);
+            //bool ....Logics.PlayersMove(i,j);
+            //validate the location in the matrix
             //return false;
         }
         private void NewGame()
