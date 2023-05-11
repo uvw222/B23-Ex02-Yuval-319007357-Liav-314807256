@@ -10,6 +10,7 @@ namespace Ex02
     { 
         
         //TicTacToeLogics m_logics;
+
         public void Game()
         {
             bool isQuit;
@@ -44,7 +45,7 @@ namespace Ex02
         {
 
         }
-        private bool IsWinn()
+        private bool IsWin()
         {
 
         }
