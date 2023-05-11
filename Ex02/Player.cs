@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ex02
 {
-    class Program
+    class Player
     {
-        public static void Main()
-        {
-            TicTacToeUI.Game();
-        }
     }
 }
