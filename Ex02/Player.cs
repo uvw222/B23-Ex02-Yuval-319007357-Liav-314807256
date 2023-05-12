@@ -34,6 +34,22 @@ namespace Ex02
             }
         }
 
-        
+        public override string ToString()
+        {
+            string nameOfPlayer = "Player";
+            if (Symbole == CellValue.X)
+                nameOfPlayer = "Player one";
+            else if (Symbole == CellValue.O)
+                nameOfPlayer = "Player two";
+            return nameOfPlayer;
+        }
+
+        public int Score
+        {
+            get
+            {
+                return m_Score;
+            }
+        }
     }
 }
