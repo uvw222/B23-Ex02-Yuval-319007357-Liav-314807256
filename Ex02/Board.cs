@@ -6,43 +6,23 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
+    public enum CellValue
+    {
+        Empty,
+        X,
+        O
+    }
+
     internal class TicTacToeBoard
     {
-        private Box[,] m_Board;
+        private CellValue[,] m_Board;
         private int m_size;
-        private struct Box  // to check how to implemnt correctly
-        {
-            char symbol;
-            bool taken;
-
-            public char Symbol
-            {
-                get
-                {
-                    return symbol;
-                }
-                set
-                {
-                    if (value != ' ')
-                    {
-                        taken = true;
-                    }
-                    symbol = value;
-                }
-            }
-            public bool Taken
-            {
-                get
-                {
-                    return taken;
-                }
-            }
-        }
+        
 
         public TicTacToeBoard(int i_size)
         {
             m_size = i_size;
-            m_Board = new Box[m_size, m_size]; 
+            m_Board = new CellValue[m_size, m_size]; 
             ResetBoard(); 
         }
 
@@ -53,12 +33,33 @@ namespace Ex02
             {
                 for (int j = 0; j < m_size; j++)
                 {
-                    m_Board[i, j].Symbol = ' ';
+                    m_Board[i, j] = CellValue.Empty;
                 }
             }
         }
 
-        public Box[,] BoardState
+        public bool PlaceSymbol(CellValue i_symbol, int i_iIndex, int i_jIndex)
+        {
+            bool isPlaced = false;
+            if(GetCell(i_iIndex, i_jIndex) == CellValue.Empty)
+            {
+                m_Board[i_iIndex, i_jIndex] = i_symbol;
+                isPlaced = true;
+            }
+            else
+            {
+                isPlaced = false;
+            }
+
+            return isPlaced;
+        }
+
+        public CellValue GetCell(int i_iIndex, int i_jIndex)
+        {
+            return m_Board[i_iIndex, i_jIndex];
+        }
+
+        public CellValue[,] BoardState
         {
             get
             { 
