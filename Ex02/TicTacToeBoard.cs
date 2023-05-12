@@ -40,7 +40,7 @@ namespace Ex02
 
 
 
-        public bool PlaceSymbol(CellValue i_symbol, int i_iIndex, int i_jIndex)
+        public bool PlaceSymbole(CellValue i_symbol, int i_iIndex, int i_jIndex)
         {
             bool isPlaced = false;
             if (GetCell(i_iIndex, i_jIndex) == CellValue.Empty)

@@ -8,7 +8,7 @@ namespace Ex02
 {
     class TicTacToeLogics
     {
-        Player m_Player1, m_Player2;
+        Player m_Player1, m_Player2, m_CurrentPlayer;
         TicTacToeBoard m_Board;
         bool m_Players2Turn = false;
         
@@ -24,7 +24,7 @@ namespace Ex02
 
         public bool PlayersMove(int i_iIndex, int i_jIndex)
         {
-            bool isSymbolePlaced = m_Board.PlaceSymbole(i_iIndex, i_jIndex);
+            bool isSymbolePlaced = m_Board.PlaceSymbole(m_CurrentPlayer.Symbole, i_iIndex, i_jIndex);
             return isSymbolePlaced;
         }
 

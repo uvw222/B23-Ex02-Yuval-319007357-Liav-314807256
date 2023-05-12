@@ -8,5 +8,15 @@ namespace Ex02
 {
     class Player
     {
+        private readonly CellValue m_Symbole;
+
+        public CellValue Symbole
+        {
+            get
+            {
+                return m_Symbole;
+            }
+
+        }
     }
 }
