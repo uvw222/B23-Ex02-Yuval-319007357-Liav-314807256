@@ -230,7 +230,7 @@ _pkginfo.txt
 !?*.[Cc]ache/
 
 *.csproj
-
+*.config
 # Others
 ClientBin/
 ~$*
