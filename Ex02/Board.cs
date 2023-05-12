@@ -107,6 +107,7 @@ namespace Ex02
                 }
                 counterO = counterX = 0;
             }
+        
 
             // Check diagonal left to right
             for (int i = 0; i < m_size && !isWinner; i++)
@@ -133,6 +134,7 @@ namespace Ex02
             }
             counterO = counterX = 0;
 
+
             //check diagonal right to left
             for (int i = m_size-1; i >= 0 && !isWinner; i--)
             {
@@ -157,6 +159,7 @@ namespace Ex02
                 symbolOfWinner = CellValue.X;
             }
             counterO = counterX = 0;
+
 
 
             //check colomns
