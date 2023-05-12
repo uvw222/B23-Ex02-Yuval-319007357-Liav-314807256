@@ -12,6 +12,7 @@ namespace Ex02
         X,
         O
     }
+      
 
     internal class TicTacToeBoard
     {
@@ -24,6 +25,14 @@ namespace Ex02
             m_size = i_size;
             m_Board = new CellValue[m_size, m_size];
             ResetBoard();
+        }
+
+        public int Size
+        {
+            get
+            {
+                return m_size;
+            }
         }
 
         // Method to reset the board to empty cells
@@ -40,7 +49,7 @@ namespace Ex02
 
 
 
-        public bool PlaceSymbol(CellValue i_symbol, int i_iIndex, int i_jIndex)
+        public bool PlaceSymbole(CellValue i_symbol, int i_iIndex, int i_jIndex)
         {
             bool isPlaced = false;
             if (GetCell(i_iIndex, i_jIndex) == CellValue.Empty)
@@ -189,7 +198,7 @@ namespace Ex02
                 counterO = counterX = 0;
             }
 
-            // No winner yet
+            // X = x is the winner | O = o is the winner | Empty = no winner
             return symbolOfWinner;
         }
         public CellValue[,] BoardState

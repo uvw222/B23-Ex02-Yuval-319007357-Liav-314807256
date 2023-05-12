@@ -8,29 +8,99 @@ namespace Ex02
 {
     class TicTacToeLogics
     {
-        Player m_Player1, m_Player2;
-        TicTacToeBoard m_Board;
-        bool m_Players2Turn = false;
+        private Player m_Player1, m_Player2;
+        private Player m_CurrentPlayer;
+        private TicTacToeBoard m_Board;
         
         public TicTacToeLogics(int i_sizeOfBoard, int i_numOfPlayers) 
         {
             m_Board = new TicTacToeBoard(i_sizeOfBoard);
+            const bool v_isNotBot = false;
+
             if ( i_numOfPlayers == 1)
             {
-                //m_Player1 = new Player(true);
-               
+                m_Player1 = new Player(CellValue.X, v_isNotBot);
+                m_Player2 = new Player(CellValue.O, !v_isNotBot);   
+            }
+            else
+            {
+                m_Player1 = new Player(CellValue.X, v_isNotBot);
+                m_Player2 = new Player(CellValue.O, v_isNotBot);
+            }
+            m_CurrentPlayer = m_Player1;
+        }
+
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return m_CurrentPlayer;
             }
         }
 
+        public TicTacToeBoard BoardState
+        {
+            get
+            {
+                return m_Board;
+            }
+        }
+
+        public Player GetPlayerBySymbole(CellValue symbole)
+        {
+            Player player = null;
+            if ( symbole == CellValue.X )
+            {
+                player = m_Player1;
+            }
+            else if ( symbole == CellValue.O )
+            {
+                player = m_Player2;
+            }
+            return player;
+        }
         public bool PlayersMove(int i_iIndex, int i_jIndex)
         {
-            bool isSymbolePlaced = m_Board.PlaceSymbole(i_iIndex, i_jIndex);
+            bool isSymbolePlaced = m_Board.PlaceSymbole(m_CurrentPlayer.Symbole, i_iIndex, i_jIndex);
+            if (isSymbolePlaced)
+            {
+                if (m_CurrentPlayer == m_Player1)
+                {
+                    m_CurrentPlayer = m_Player2;
+                }
+                else
+                {
+                    m_CurrentPlayer = m_Player1;
+                }
+            }
             return isSymbolePlaced;
         }
-        public int WinningStatus()
-        {
-            bool isGameOver = m_Board.IsGameOver();
 
+
+
+        public bool WinningStatus(out CellValue o_WinnerSymbole)
+        {
+            bool isGameOver = false;
+            o_WinnerSymbole = m_Board.GetWinner();
+            if(o_WinnerSymbole == CellValue.Empty)
+            {
+                isGameOver  = !m_Board.IsPlaceOnBoard();
+                // no winner and no place on board = its a tie
+            }
+            else
+            {
+                isGameOver = true;
+                GetPlayerBySymbole(o_WinnerSymbole).IncrementScore();
+                // o_WinnerSymbole = X or O -> gameover
+            }
+            return isGameOver;
+
+        }
+
+        public void ResetGame()
+        {
+            m_CurrentPlayer = m_Player1;
+            m_Board.ResetBoard();
         }
     }
 }

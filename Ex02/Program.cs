@@ -9,7 +9,8 @@ namespace Ex02
     {
         public static void Main()
         {
-            TicTacToeUI.Game();
+            TicTacToeUI GameInterFace = new TicTacToeUI();
+            GameInterFace.Game();
         }
     }
 }
