@@ -36,11 +36,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player.cs" />
-    <Compile Include="TicTacToeBoard.cs" />
-    <Compile Include="TicTacToeLogics.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="TicTacToeUI.cs" />
+    <Compile Include="TikTokToeUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">
