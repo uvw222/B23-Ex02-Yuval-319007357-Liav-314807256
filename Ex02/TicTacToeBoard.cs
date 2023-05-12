@@ -189,7 +189,7 @@ namespace Ex02
                 counterO = counterX = 0;
             }
 
-            // No winner yet
+            // X = x is the winner | O = o is the winner | Empty = no winner
             return symbolOfWinner;
         }
         public CellValue[,] BoardState

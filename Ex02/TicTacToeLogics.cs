@@ -27,9 +27,24 @@ namespace Ex02
             bool isSymbolePlaced = m_Board.PlaceSymbole(i_iIndex, i_jIndex);
             return isSymbolePlaced;
         }
-        public int WinningStatus()
+
+
+
+        public bool WinningStatus(out CellValue o_WinnerSymbole)
         {
-            bool isGameOver = m_Board.IsGameOver();
+            bool isGameOver = false;
+            o_WinnerSymbole = m_Board.GetWinner()
+            if(o_WinnerSymbole == CellValue.Empty)
+            {
+                isGameOver  = !m_Board.IsPlaceOnBoard();
+                // no winner and no place on board = its a tie
+            }
+            else
+            {
+                isGameOver = true;
+                // o_WinnerSymbole = X or O -> gameover
+            }
+            return isGameOver;
 
         }
     }
