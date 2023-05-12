@@ -12,6 +12,7 @@ namespace Ex02
         X,
         O
     }
+      
 
     internal class TicTacToeBoard
     {
