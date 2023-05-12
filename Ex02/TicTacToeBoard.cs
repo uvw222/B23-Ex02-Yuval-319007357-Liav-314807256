@@ -26,6 +26,14 @@ namespace Ex02
             ResetBoard();
         }
 
+        public int Size
+        {
+            get
+            {
+                return m_size;
+            }
+        }
+
         // Method to reset the board to empty cells
         public void ResetBoard()
         {

@@ -8,9 +8,9 @@ namespace Ex02
 {
     class TicTacToeLogics
     {
-        Player m_Player1, m_Player2, m_CurrentPlayer;
-        TicTacToeBoard m_Board;
-        bool m_Players2Turn = false;
+        private Player m_Player1, m_Player2, m_CurrentPlayer;
+        private TicTacToeBoard m_Board;
+        private bool m_Players2Turn = false;
         
         public TicTacToeLogics(int i_sizeOfBoard, int i_numOfPlayers) 
         {
@@ -22,9 +22,26 @@ namespace Ex02
             }
         }
 
+        public TicTacToeBoard BoardState
+        {
+            get
+                { return m_Board.BoardState; }
+        }
+
         public bool PlayersMove(int i_iIndex, int i_jIndex)
         {
             bool isSymbolePlaced = m_Board.PlaceSymbole(m_CurrentPlayer.Symbole, i_iIndex, i_jIndex);
+            if(isSymbolePlaced)
+            {
+                if (m_CurrentPlayer == m_Player1)
+                {
+                    m_CurrentPlayer = m_Player2;
+                }   
+                else
+                {
+                    m_CurrentPlayer = m_Player1;
+                }
+
             return isSymbolePlaced;
         }
 
