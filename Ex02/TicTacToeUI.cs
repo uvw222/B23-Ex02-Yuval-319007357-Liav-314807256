@@ -20,10 +20,17 @@ namespace Ex02
                     PrintBoard();
                     isQuit = PlayersChoice();
                 }
-                NewGame();
+                GameSummery();
+                isQuit = NewGame();
                 //print meanwhile summary between games
             }
 
+        }
+
+        private void GameSummery()
+        {
+            Console.WriteLine($"Player 1 Score is:{m_Logics.GetPlayerBySymbole(CellValue.X).Score}");
+            Console.WriteLine($"Player 2 Score is:{m_Logics.GetPlayerBySymbole(CellValue.O).Score}");
         }
 
         void InitializeGame()
@@ -44,11 +51,12 @@ namespace Ex02
             int size = board.Size;
             CellValue[,] cells = board.BoardState;
 
+            Ex02.ConsoleUtils.Screen.Clear();
             // todo -- divide it to methods!!!!
             Console.Write("   ");
             for (int col = 0; col < size; col++)
             {
-                Console.Write($"{col+1.ToString().PadLeft(2)} ");
+                Console.Write($"{(col+1).ToString().PadLeft(2)} ");
             }
             Console.WriteLine();
 
@@ -61,10 +69,10 @@ namespace Ex02
 
             for (int row = 0; row < size; row++)
             {
-                Console.Write($"{row+1.ToString().PadLeft(2)}|");
+                Console.Write($"{(row+1).ToString().PadLeft(2)}|");
                 for (int col = 0; col < size; col++)
                 {
-                    Console.Write($" {cells[row, col].ToString().PadLeft(2)}|");
+                    Console.Write($" {ToString(cells[row, col]).PadLeft(1)}|");
                 }
                 Console.WriteLine();
 
@@ -80,7 +88,7 @@ namespace Ex02
         {
             bool turnOver = false, quit = false;
             Player currPlayer = m_Logics.CurrentPlayer;
-
+            string playerName = currPlayer.ToString();
             while(!turnOver)
             {
                 if (currPlayer.IsBot)
@@ -91,22 +99,22 @@ namespace Ex02
                 {
                     //todo -- divide to methods!!!!!!!!!
                     //its just dirty needs to make methods that do the same work without copy of code!
-                    Console.WriteLine("Please enter the i box indexes:");
+                    Console.WriteLine($"{playerName} Please enter the i box indexes:");
                     string input = Console.ReadLine();
                     if (input == "Q")
                     {
                         quit = true;
                         break;
                     }
-                    int i = int.Parse(input);
-                    Console.WriteLine("Please enter the j box indexes:");
+                    int i = int.Parse(input) - 1;
+                    Console.WriteLine($"{playerName}Please enter the j box indexes:");
                     input = Console.ReadLine();
                     if (input == "Q")
                     {
                          quit = true;
                         break;
                     }
-                    int j = int.Parse(input);
+                    int j = int.Parse(input) - 1;
                     turnOver = m_Logics.PlayersMove(i, j); 
                 }
             }
@@ -116,24 +124,54 @@ namespace Ex02
             //validate the location in the matrix
             //return false;
         }
-        private void NewGame()
+        private bool NewGame()
         {
+            bool isQuit = false;
             m_Logics.ResetGame();
+            Console.WriteLine("Do you want to continue playing? (yes|no)");
+            if(Console.ReadLine() == "yes")
+            {
+                Console.WriteLine("Let's Go");
+            }
+            else
+            {
+                isQuit = true;
+                Console.WriteLine("Bye..");
+            }
+            return isQuit;
         }
         private bool IsGameOver()
         {
             CellValue winnerSymbole;
             bool isGameOver = m_Logics.WinningStatus(out winnerSymbole);
-            if(isGameOver)
+            if (isGameOver)
             {
-                if(winnerSymbole == CellValue.Empty)
+                PrintBoard();
+                if (winnerSymbole == CellValue.Empty)
                 {
                     Console.WriteLine("Its a tie");
                 }
-                Console.WriteLine($"Congrats to {winnerSymbole.ToString()} the winner!");
+                else
+                {
+                    Console.WriteLine($"Congrats to {m_Logics.GetPlayerBySymbole(winnerSymbole).ToString()} the winner!");
+                }
             }
             return isGameOver;
         
+        }
+        public static string ToString(CellValue value)
+        {
+            switch(value)
+            {
+                case CellValue.Empty:
+                    return " ";
+                case CellValue.X:
+                    return "X";
+                case CellValue.O:
+                    return "O";
+                default:
+                    return value.ToString();
+            }
         }
     }
 }
