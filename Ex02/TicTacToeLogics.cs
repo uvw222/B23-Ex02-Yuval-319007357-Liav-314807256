@@ -91,11 +91,11 @@ namespace Ex02
             bool validTurn = false;
             int row, col;
             Random random = new Random();
-            while(!validTurn)
+            while (!validTurn)
             {
                 row = random.Next(m_Board.Size);
-                col = random.Next(m_Board.Size);   
-                if(m_Board.IsPlaceOnBoard())
+                col = random.Next(m_Board.Size);
+                if (m_Board.IsPlaceOnBoard())
                 {
                     validTurn = PlayersMove(row, col);
                 }
@@ -126,78 +126,7 @@ namespace Ex02
             m_CurrentPlayer = m_Player1;
             m_Board.ResetBoard();
         }
-        private TicTocToeMove MiniMax(TicTacToeBoard i_board, CellValue i_playerSymbole)
-        {
-            // Base case: check if the game has ended
-            if (m_Board.GetWinner()==CellValue.X)
-            {
-                return new TicTocToeMove(-1, -1, -1);
-            }
-            else if (m_Board.GetWinner() == CellValue.O)
-            {
-                return new TicTocToeMove(-1, -1, 1);
-            } 
-            else if (!(m_Board.IsPlaceOnBoard()))
-            {
-                return new TicTocToeMove(-1, -1, 0);
-            }
-               
-            List<TicTocToeMove> moves = new List<TicTocToeMove>();
-
-            // Generate all possible moves and calculate their scores
-            for (int row = 0; row < 3; row++)
-            {
-                for (int col = 0; col < 3; col++)
-                {
-                    if (m_Board.GetCell(row, col) == CellValue.Empty)
-                    {
-                        // Apply the move to the board
-                        bool isSymbolePlaced = m_Board.PlaceSymbole(i_playerSymbole, row, col);
-                        
-                        // Calculate the score of the move by recursively calling MiniMax for the opponent player
-                        TicTocToeMove move = new TicTocToeMove(row, col, MiniMax(m_Board, (i_playerSymbole == m_Player2.Symbole) ? m_Player1.Symbole : m_Player2.Symbole).Score);
-                        
-                        // Reset the move on the board
-                        isSymbolePlaced = m_Board.PlaceEmptySymbole(CellValue.Empty, row, col); 
-                       
-                        moves.Add(move);
-                    }
-                }
-            }
-
-            // Select the best move based on the player's turn
-            TicTocToeMove bestMove = moves[0];
-            GetBestMove(ref bestMove, ref moves, i_playerSymbole);
-            
-            return bestMove;
-        }
-        private void GetBestMove(ref TicTocToeMove io_move, ref List<TicTocToeMove> io_moves, CellValue i_playerSymbole)
-        {
-            if (i_playerSymbole == m_Player2.Symbole)
-            {
-                int bestScore = int.MinValue;
-                foreach (TicTocToeMove move in io_moves)
-                {
-                    if (move.Score > bestScore)
-                    {
-                        bestScore = move.Score;
-                        io_move = move;
-                    }
-                }
-            }
-            else
-            {
-                int bestScore = int.MaxValue;
-                foreach (TicTocToeMove move in io_moves)
-                {
-                    if (move.Score < bestScore)
-                    {
-                        bestScore = move.Score;
-                        io_move = move;
-                    }
-                }
-            }
-        }
+        
         
     }
 }
