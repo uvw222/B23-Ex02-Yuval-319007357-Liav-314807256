@@ -23,7 +23,10 @@ namespace Ex02
         }
         public bool IsBot
         {
-            get { return r_IsBot; }
+            get 
+            { 
+                return r_IsBot; 
+            }
         }
         public CellValue Symbole
         {

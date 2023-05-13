@@ -13,7 +13,6 @@ namespace Ex02
         O
     }
       
-
     internal class TicTacToeBoard
     {
         private CellValue[,] m_Board;
@@ -80,6 +79,7 @@ namespace Ex02
         public bool IsPlaceOnBoard()
         {
             bool isNotFull = false;
+
             foreach(CellValue cell in m_Board)
             {
                 if (cell == CellValue.Empty)
@@ -87,6 +87,7 @@ namespace Ex02
                     isNotFull = true;
                 }
             }
+
             return isNotFull;
         }
         public CellValue GetWinner()

@@ -57,22 +57,25 @@ namespace Ex02
                 return m_Board;
             }
         }
-        public Player GetPlayerBySymbole(CellValue symbole)
+        public Player GetPlayerBySymbole(CellValue i_symbole)
         {
             Player player = null;
-            if ( symbole == CellValue.X )
+
+            if (i_symbole == CellValue.X )
             {
                 player = m_Player1;
             }
-            else if ( symbole == CellValue.O )
+            else if (i_symbole == CellValue.O )
             {
                 player = m_Player2;
             }
+
             return player;
         }
         internal bool PlayersMove(int i_iIndex, int i_jIndex)
         {
             bool isSymbolePlaced = m_Board.PlaceSymbole(m_CurrentPlayer.Symbole, i_iIndex, i_jIndex);
+
             if (isSymbolePlaced)
             {
                 if (m_CurrentPlayer == m_Player1)
@@ -84,6 +87,7 @@ namespace Ex02
                     m_CurrentPlayer = m_Player1;
                 }
             }
+
             return isSymbolePlaced;
         }
         internal bool ComputersMove()
@@ -91,6 +95,7 @@ namespace Ex02
             bool validTurn = false;
             int row, col;
             Random random = new Random();
+
             while (!validTurn)
             {
                 row = random.Next(m_Board.Size);
@@ -107,6 +112,7 @@ namespace Ex02
         {
             bool isGameOver = false;
             o_WinnerSymbole = m_Board.GetWinner();
+
             if(o_WinnerSymbole == CellValue.Empty)
             {
                 isGameOver  = !m_Board.IsPlaceOnBoard();
@@ -118,8 +124,8 @@ namespace Ex02
                 GetPlayerBySymbole(o_WinnerSymbole).IncrementScore();
                 // o_WinnerSymbole = X or O -> gameover
             }
-            return isGameOver;
 
+            return isGameOver;
         }
         public void ResetGame()
         {

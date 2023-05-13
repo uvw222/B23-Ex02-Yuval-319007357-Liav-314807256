@@ -12,6 +12,7 @@ namespace Ex02
         public void Game()
         {
             bool isQuit = false;
+
             InitializeGame();
             while (!isQuit)//!=Q
             {
@@ -22,7 +23,6 @@ namespace Ex02
                 }
                 GameSummery();
                 isQuit = NewGame();
-                //print meanwhile summary between games
             }
 
         }
@@ -89,11 +89,13 @@ Try Again");
                 isQuit = true;
                 Console.WriteLine("Bye..");
             }
+
             return isQuit;
         }
         private bool IsGameOver()
         {
             CellValue winnerSymbole;
+
             bool isGameOver = m_Logics.WinningStatus(out winnerSymbole);
             if (isGameOver)
             {
@@ -107,8 +109,8 @@ Try Again");
                     Console.WriteLine($"Congrats to {m_Logics.GetPlayerBySymbole(winnerSymbole).ToString()} the winner!");
                 }
             }
-            return isGameOver;
-        
+
+            return isGameOver;        
         }
         public static string ToString(CellValue value)
         {
@@ -126,8 +128,9 @@ Try Again");
         }
         private void PrintBoard()
         {
-            TicTacToeBoard board = m_Logics.BoardState;//-gets the array 
+            TicTacToeBoard board = m_Logics.BoardState;
             int size = board.Size;
+
             PrintFirstRowOfMatrix(size);
             for (int row = 0; row < size; row++)
             {
@@ -137,6 +140,7 @@ Try Again");
         private void PrintRowInIndexI(int i_row, ref TicTacToeBoard io_board)
         {
             CellValue[,] cells = io_board.BoardState;
+
             Console.Write($"{(i_row + 1).ToString().PadLeft(2)}|");
             for (int col = 0; col < io_board.Size; col++)
             {
