@@ -21,7 +21,6 @@ namespace Ex02
             this.r_Symbole = i_Symbole;
             this.r_IsBot = i_IsBot;
         }
-
         public bool IsBot
         {
             get { return r_IsBot; }
@@ -33,7 +32,6 @@ namespace Ex02
                 return r_Symbole;
             }
         }
-
         public override string ToString()
         {
             string nameOfPlayer = "Player";
@@ -43,7 +41,6 @@ namespace Ex02
                 nameOfPlayer = "Player two";
             return nameOfPlayer;
         }
-
         public int Score
         {
             get

@@ -19,14 +19,12 @@ namespace Ex02
         private CellValue[,] m_Board;
         private int m_size;
 
-
         public TicTacToeBoard(int i_size)
         {
             m_size = i_size;
             m_Board = new CellValue[m_size, m_size];
             ResetBoard();
         }
-
         public int Size
         {
             get
@@ -34,7 +32,6 @@ namespace Ex02
                 return m_size;
             }
         }
-
         // Method to reset the board to empty cells
         public void ResetBoard()
         {
@@ -46,30 +43,40 @@ namespace Ex02
                 }
             }
         }
-
-
-
         public bool PlaceSymbole(CellValue i_symbol, int i_iIndex, int i_jIndex)
         {
-            bool isPlaced = false;
+            bool isPlacedSuccessfully = false;
             if (GetCell(i_iIndex, i_jIndex) == CellValue.Empty)
             {
                 m_Board[i_iIndex, i_jIndex] = i_symbol;
-                isPlaced = true;
+                isPlacedSuccessfully = true;
             }
             else
             {
-                isPlaced = false;
+                isPlacedSuccessfully = false;
             }
 
-            return isPlaced;
+            return isPlacedSuccessfully;
         }
+        public bool PlaceEmptySymbole(CellValue i_symbol, int i_iIndex, int i_jIndex)
+        {
+            bool isPlacedSuccessfully = false;
+            if (GetCell(i_iIndex, i_jIndex) != CellValue.Empty)
+            {
+                m_Board[i_iIndex, i_jIndex] = i_symbol;
+                isPlacedSuccessfully = true;
+            }
+            else
+            {
+                isPlacedSuccessfully = false;
+            }
 
+            return isPlacedSuccessfully;
+        }
         public CellValue GetCell(int i_iIndex, int i_jIndex)
         {
             return m_Board[i_iIndex, i_jIndex];
         }
-
         public bool IsPlaceOnBoard()
         {
             bool isNotFull = false;
@@ -82,124 +89,130 @@ namespace Ex02
             }
             return isNotFull;
         }
-
-        // TODOOOOO - make this method shorter
         public CellValue GetWinner()
         {
             CellValue symbolOfWinner = CellValue.Empty;
             bool isWinner = false;
             int counterX = 0, counterO = 0;
-
             // Check rows
-            for (int i = 0; i < m_size && !isWinner; i++)
+            CheckWinnInARow(ref isWinner, ref counterX, ref counterO, ref symbolOfWinner);
+            //check columns
+            CheckWinnInAColumn(ref isWinner, ref counterX, ref counterO, ref symbolOfWinner);
+            // Check diagonal top-left to bottom-right
+            CheckWinnCrossRightToLeft(ref isWinner, ref counterX, ref counterO, ref symbolOfWinner);
+            //check diagonal top-right to bottom-left
+            CheckWinnCrossLeftToRight(ref isWinner, ref counterX, ref counterO, ref symbolOfWinner);
+
+            // X = x is the winner | O = o is the winner | Empty = no winner
+            return symbolOfWinner;
+        }
+        private void CheckWinnInARow(ref bool io_isWinner, ref int io_counterX, ref int io_counterO, ref CellValue io_symbolOfWinner)
+        {
+            for (int i = 0; i < m_size && !io_isWinner; i++)
             {
                 for (int j = 0; j < m_size; j++)
                 {
                     if (m_Board[i, j] == CellValue.X)
                     {
-                        counterX++;
+                        io_counterX++;
                     }
                     else if (m_Board[i, j] == CellValue.O)
                     {
-                        counterO++;
+                        io_counterO++;
                     }
                 }
-                if (counterO == m_size)
+                if (io_counterO == m_size)
                 {
-                    isWinner = true;
-                    symbolOfWinner = CellValue.X;
+                    io_isWinner = true;
+                    io_symbolOfWinner = CellValue.X;
                 }
-                else if (counterX == m_size)
+                else if (io_counterX == m_size)
                 {
-                    isWinner = true;
-                    symbolOfWinner = CellValue.O;
+                    io_isWinner = true;
+                    io_symbolOfWinner = CellValue.O;
                 }
-                counterO = counterX = 0;
+                io_counterO = io_counterX = 0;
             }
-        
-
-            // Check diagonal left to right
-            for (int i = 0; i < m_size && !isWinner; i++)
+        }
+        private void CheckWinnCrossRightToLeft(ref bool io_isWinner, ref int io_counterX, ref int io_counterO, ref CellValue io_symbolOfWinner)
+        {
+            for (int i = 0; i < m_size && !io_isWinner; i++)
             {
 
                 if (m_Board[i, i] == CellValue.X)
                 {
-                    counterX++;
+                    io_counterX++;
                 }
                 else if (m_Board[i, i] == CellValue.O)
                 {
-                    counterO++;
+                    io_counterO++;
                 }
             }
-            if (counterO == m_size)
+            if (io_counterO == m_size)
             {
-                isWinner = true;
-                symbolOfWinner = CellValue.O;
+                io_isWinner = true;
+                io_symbolOfWinner = CellValue.X;
             }
-            else if (counterX == m_size)
+            else if (io_counterX == m_size)
             {
-                isWinner = true;
-                symbolOfWinner = CellValue.X;
+                io_isWinner = true;
+                io_symbolOfWinner = CellValue.O;
             }
-            counterO = counterX = 0;
-
-
-            //check diagonal right to left
-            for (int i = m_size-1; i >= 0 && !isWinner; i--)
+            io_counterO = io_counterX = 0;
+        }
+        private void CheckWinnCrossLeftToRight(ref bool io_isWinner, ref int io_counterX, ref int io_counterO, ref CellValue io_symbolOfWinner)
+        {
+            for (int i = m_size - 1; i >= 0 && !io_isWinner; i--)
             {
 
                 if (m_Board[i, i] == CellValue.X)
                 {
-                    counterX++;
+                    io_counterX++;
                 }
                 else if (m_Board[i, i] == CellValue.O)
                 {
-                    counterO++;
+                    io_counterO++;
                 }
             }
-            if (counterO == m_size)
+            if (io_counterO == m_size)
             {
-                isWinner = true;
-                symbolOfWinner = CellValue.O;
+                io_isWinner = true;
+                io_symbolOfWinner = CellValue.X;
             }
-            else if (counterX == m_size)
+            else if (io_counterX == m_size)
             {
-                isWinner = true;
-                symbolOfWinner = CellValue.X;
+                io_isWinner = true;
+                io_symbolOfWinner = CellValue.O;
             }
-            counterO = counterX = 0;
-
-
-
-            //check colomns
-            for (int i = 0; i < m_size && !isWinner; i++)
+            io_counterO = io_counterX = 0;
+        }
+        private void CheckWinnInAColumn(ref bool io_isWinner, ref int io_counterX, ref int io_counterO, ref CellValue io_symbolOfWinner)
+        {
+            for (int i = 0; i < m_size && !io_isWinner; i++)
             {
                 for (int j = 0; j < m_size; j++)
                 {
                     if (m_Board[j, i] == CellValue.X)
                     {
-                        counterX++;
+                        io_counterX++;
                     }
                     else if (m_Board[j, i] == CellValue.O)
                     {
-                        counterO++;
+                        io_counterO++;
                     }
                 }
-                if (counterO == m_size)
+                if (io_counterO == m_size)
                 {
-                    isWinner = true;
-                    symbolOfWinner = CellValue.X; 
+                    io_isWinner = true;
+                    io_symbolOfWinner = CellValue.X;
                 }
-                else if (counterX == m_size)
+                else if (io_counterX == m_size)
                 {
-                    isWinner = true;
-                    symbolOfWinner = CellValue.O;
+                    io_isWinner = true;
+                    io_symbolOfWinner = CellValue.O;
                 }
-                counterO = counterX = 0;
+                io_counterO = io_counterX = 0;
             }
-
-            // X = x is the winner | O = o is the winner | Empty = no winner
-            return symbolOfWinner;
         }
         public CellValue[,] BoardState
         {
