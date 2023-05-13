@@ -41,6 +41,8 @@
     <Compile Include="TicTacToeBoard.cs" />
     <Compile Include="TicTacToeLogics.cs" />
     <Compile Include="TicTacToeUI.cs" />
+    <Compile Include="TicTocToeMove.cs" />
+    <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">

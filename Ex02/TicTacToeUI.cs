@@ -26,63 +26,17 @@ namespace Ex02
             }
 
         }
-
         private void GameSummery()
         {
             Console.WriteLine($"Player 1 Score is:{m_Logics.GetPlayerBySymbole(CellValue.X).Score}");
             Console.WriteLine($"Player 2 Score is:{m_Logics.GetPlayerBySymbole(CellValue.O).Score}");
         }
-
         void InitializeGame()
         {
-            Console.WriteLine("Please choose size N of board(N X N) :");
-            int sizeOfBoard = int.Parse(Console.ReadLine());
-            Console.WriteLine("How many player are playing? \nenter 1 or 2:");
-            int numOfPlayers = int.Parse(Console.ReadLine());
-            //request size and num of players, print and local veriabls
-            //validation function
+            int sizeOfBoard = 0, numOfPlayers = 0;
+            Validator.ValidateBoardSize(ref sizeOfBoard);
+            Validator.ValidatNumOfPlayers(ref numOfPlayers);
             m_Logics = new TicTacToeLogics(sizeOfBoard, numOfPlayers);
-            
-        }
-
-        private void PrintBoard()
-        {
-            TicTacToeBoard board = m_Logics.BoardState;//-gets the array 
-            int size = board.Size;
-            CellValue[,] cells = board.BoardState;
-
-            Ex02.ConsoleUtils.Screen.Clear();
-            // todo -- divide it to methods!!!!
-            Console.Write("   ");
-            for (int col = 0; col < size; col++)
-            {
-                Console.Write($"{(col+1).ToString().PadLeft(2)} ");
-            }
-            Console.WriteLine();
-
-            Console.Write("  ");
-            for (int col = 0; col < size; col++)
-            {
-                Console.Write("===");
-            }
-            Console.WriteLine();
-
-            for (int row = 0; row < size; row++)
-            {
-                Console.Write($"{(row+1).ToString().PadLeft(2)}|");
-                for (int col = 0; col < size; col++)
-                {
-                    Console.Write($" {ToString(cells[row, col]).PadLeft(1)}|");
-                }
-                Console.WriteLine();
-
-                Console.Write("  ");
-                for (int col = 0; col < size; col++)
-                {
-                    Console.Write("===");
-                }
-                Console.WriteLine();
-            }
         }
         private bool PlayersChoice()
         {
@@ -93,36 +47,30 @@ namespace Ex02
             {
                 if (currPlayer.IsBot)
                 {
-                    turnOver = m_Logics.PlayersMove(1, 2); // todo make it randommmmm!!!
+                    turnOver = m_Logics.ComputersMove();
                 }
                 else
                 {
-                    //todo -- divide to methods!!!!!!!!!
-                    //its just dirty needs to make methods that do the same work without copy of code!
-                    Console.WriteLine($"{playerName} Please enter the i box indexes:");
-                    string input = Console.ReadLine();
+                    int i = -1, j = -1;
+                    string input="";
+                    Validator.ValidateIndexes(ref input, ref i, ref j, playerName, m_Logics.BoardState.Size);
                     if (input == "Q")
                     {
-                        quit = true;
+                        quit = true;//Award a point to the opponent due to the retirement of the current player
+                        if (currPlayer== m_Logics.Player1)
+                        {
+                            m_Logics.Player2.IncrementScore();
+                        }
+                        else
+                        {
+                            m_Logics.Player1.IncrementScore();
+                        }
                         break;
                     }
-                    int i = int.Parse(input) - 1;
-                    Console.WriteLine($"{playerName}Please enter the j box indexes:");
-                    input = Console.ReadLine();
-                    if (input == "Q")
-                    {
-                         quit = true;
-                        break;
-                    }
-                    int j = int.Parse(input) - 1;
                     turnOver = m_Logics.PlayersMove(i, j); 
                 }
             }
             return quit;
-            //validate i, j - if Q than return true
-            //bool ....Logics.PlayersMove(i,j);
-            //validate the location in the matrix
-            //return false;
         }
         private bool NewGame()
         {
@@ -172,6 +120,42 @@ namespace Ex02
                 default:
                     return value.ToString();
             }
+        }
+        private void PrintBoard()
+        {
+            TicTacToeBoard board = m_Logics.BoardState;//-gets the array 
+            int size = board.Size;
+            PrintFirstRowOfMatrix(size);
+            for (int row = 0; row < size; row++)
+            {
+                PrintRowInIndexI(row, ref board);
+            }
+        }
+        private void PrintRowInIndexI(int i_row, ref TicTacToeBoard io_board)
+        {
+            CellValue[,] cells = io_board.BoardState;
+            Console.Write($"{(i_row + 1).ToString().PadLeft(2)}|");
+            for (int col = 0; col < io_board.Size; col++)
+            {
+                Console.Write($"{ToString(cells[i_row, col]).PadLeft(3)}|");
+            }
+            Console.WriteLine();
+
+            Console.Write("  ");
+            for (int col = 0; col < io_board.Size; col++)
+            {
+                Console.Write("====");
+            }
+            Console.WriteLine();
+        }
+        private void PrintFirstRowOfMatrix(int i_size)
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            for (int col = 0; col < i_size; col++)
+            {
+                Console.Write($"{(col + 1).ToString().PadLeft(4)}");
+            }
+            Console.WriteLine();
         }
     }
 }
