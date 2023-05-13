@@ -43,33 +43,36 @@ namespace Ex02
             bool turnOver = false, quit = false;
             Player currPlayer = m_Logics.CurrentPlayer;
             string playerName = currPlayer.ToString();
-            while(!turnOver)
+            if (currPlayer.IsBot)
             {
-                if (currPlayer.IsBot)
+                turnOver = m_Logics.ComputersMove();
+            }
+            while (!turnOver)
+            {
+                int i = -1, j = -1;
+                string input = "";
+                Validator.ValidateIndexes(ref input, ref i, ref j, playerName, m_Logics.BoardState.Size);
+                if (input == "Q")
                 {
-                    turnOver = m_Logics.ComputersMove();
-                }
-                else
-                {
-                    int i = -1, j = -1;
-                    string input="";
-                    Validator.ValidateIndexes(ref input, ref i, ref j, playerName, m_Logics.BoardState.Size);
-                    if (input == "Q")
+                    quit = true;//Award a point to the opponent due to the retirement of the current player
+                    if (currPlayer == m_Logics.Player1)
                     {
-                        quit = true;//Award a point to the opponent due to the retirement of the current player
-                        if (currPlayer== m_Logics.Player1)
-                        {
-                            m_Logics.Player2.IncrementScore();
-                        }
-                        else
-                        {
-                            m_Logics.Player1.IncrementScore();
-                        }
-                        break;
+                        m_Logics.Player2.IncrementScore();
                     }
-                    turnOver = m_Logics.PlayersMove(i, j); 
+                    else
+                    {
+                        m_Logics.Player1.IncrementScore();
+                    }
+                    break;
+                }
+                turnOver = m_Logics.PlayersMove(i, j);
+                if(!turnOver)
+                {
+                    Console.WriteLine(@"This place is taken..
+Try Again");
                 }
             }
+
             return quit;
         }
         private bool NewGame()

@@ -88,13 +88,20 @@ namespace Ex02
         }
         internal bool ComputersMove()
         {
-            TicTocToeMove bestMove = MiniMax(m_Board, m_Player2.Symbole);
-            bool isSymbolePlaced = m_Board.PlaceSymbole(m_Player2.Symbole, bestMove.Row, bestMove.Col);
-            if (isSymbolePlaced)
+            bool validTurn = false;
+            int row, col;
+            Random random = new Random();
+            while(!validTurn)
             {
-                m_CurrentPlayer = m_Player1;
+                row = random.Next(m_Board.Size);
+                col = random.Next(m_Board.Size);   
+                if(m_Board.IsPlaceOnBoard())
+                {
+                    validTurn = PlayersMove(row, col);
+                }
             }
-            return isSymbolePlaced;
+
+            return validTurn;
         }
         public bool WinningStatus(out CellValue o_WinnerSymbole)
         {
