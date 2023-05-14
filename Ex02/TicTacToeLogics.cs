@@ -35,6 +35,10 @@ namespace Ex02
             {
                 return m_CurrentPlayer;
             }
+            set
+            {
+                m_CurrentPlayer = value;
+            }
         }
         public Player Player1
         {

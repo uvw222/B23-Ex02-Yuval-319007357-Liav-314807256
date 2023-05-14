@@ -9,6 +9,8 @@ namespace Ex02
     class TicTacToeUI
     { 
         private TicTacToeLogics m_Logics = null;
+        private TicTacToeAI m_computersMove = null;
+       
         public void Game()
         {
             bool isQuit = false;
@@ -42,16 +44,28 @@ namespace Ex02
         {
             bool turnOver = false, quit = false;
             Player currPlayer = m_Logics.CurrentPlayer;
+            m_computersMove = new TicTacToeAI(); 
             string playerName = currPlayer.ToString();
+           
             if (currPlayer.IsBot)
             {
-                turnOver = m_Logics.ComputersMove();
+
+                if(m_Logics.BoardState.Size==3)//generate AI moves only when board size is 3x3 due to high complexity 
+                {
+                    turnOver = m_computersMove.ComputersMove(m_Logics, ref currPlayer, m_Logics.Player1);
+                }
+                else
+                {
+                    turnOver = m_Logics.ComputersMove();
+                }
+
             }
             while (!turnOver)
             {
                 int i = -1, j = -1;
                 string input = "";
                 Validator.ValidateIndexes(ref input, ref i, ref j, playerName, m_Logics.BoardState.Size);
+                
                 if (input == "Q")
                 {
                     quit = true;//Award a point to the opponent due to the retirement of the current player
@@ -80,6 +94,7 @@ Try Again");
             bool isQuit = false;
             m_Logics.ResetGame();
             Console.WriteLine("Do you want to continue playing? (yes|no)");
+            
             if(Console.ReadLine() == "yes")
             {
                 Console.WriteLine("Let's Go");
@@ -95,8 +110,8 @@ Try Again");
         private bool IsGameOver()
         {
             CellValue winnerSymbole;
-
             bool isGameOver = m_Logics.WinningStatus(out winnerSymbole);
+            
             if (isGameOver)
             {
                 PrintBoard();
@@ -142,26 +157,31 @@ Try Again");
             CellValue[,] cells = io_board.BoardState;
 
             Console.Write($"{(i_row + 1).ToString().PadLeft(2)}|");
+           
             for (int col = 0; col < io_board.Size; col++)
             {
                 Console.Write($"{ToString(cells[i_row, col]).PadLeft(3)}|");
             }
+           
             Console.WriteLine();
-
             Console.Write("  ");
+            
             for (int col = 0; col < io_board.Size; col++)
             {
                 Console.Write("====");
             }
+            
             Console.WriteLine();
         }
         private void PrintFirstRowOfMatrix(int i_size)
         {
             Ex02.ConsoleUtils.Screen.Clear();
+           
             for (int col = 0; col < i_size; col++)
             {
                 Console.Write($"{(col + 1).ToString().PadLeft(4)}");
             }
+           
             Console.WriteLine();
         }
     }

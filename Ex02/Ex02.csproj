@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="TicTacToeAI.cs" />
+    <Compile Include="TicTacToeAIMove.cs" />
     <Compile Include="TicTacToeBoard.cs" />
     <Compile Include="TicTacToeLogics.cs" />
     <Compile Include="TicTacToeUI.cs" />
